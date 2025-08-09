@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verify_email.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="email-verification">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="text-center">
+                <div class="email-icon">
+                    <i class="fas fa-envelope-open"></i>
+                </div>
+                <h1>Email Verification</h1>
+                <p class="text-muted">We've sent a 6-digit verification code to:</p>
+                <div class="email-display">{{ email }}</div>
+                <p class="text-muted">Please enter the code below to complete your login.</p>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <input type="text" 
+                           name="verification_code" 
+                           class="form-control code-input" 
+                           placeholder="000000" 
+                           maxlength="6" 
+                           pattern="[0-9]{6}" 
+                           required 
+                           autocomplete="off"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                </div>
+
+                <div class="trust-device-section">
+                    <div class="form-check">
+                        <input type="checkbox" name="trust_device" value="1" class="form-check-input" id="trustDevice">
+                        <label class="form-check-label" for="trustDevice">
+                            <strong>Trust this device</strong>
+                            <br>
+                            <small class="text-muted">Skip verification on this device in the future</small>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hidden fields for device info -->
+                <input type="hidden" name="device_fingerprint" id="device_fingerprint_field">
+                <input type="hidden" name="device_name" id="device_name_field">
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">Verify Code</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted">Didn't receive the code?</p>
+                <form method="POST" style="display: inline;">
+                    <button type="submit" name="resend" class="btn-resend">Resend Code</button>
+                </form>
+                <br>
+                <a href="{{ url_for('choose_verification') }}" class="btn btn-outline-secondary mt-3">
+                    <i class="fas fa-arrow-left"></i> Back to Options
+                </a>
+            </div>
+
+            <div class="alert alert-warning mt-4">
+                <i class="fas fa-clock"></i>
+                <strong>Note:</strong> The verification code will expire in 10 minutes for security reasons.
+            </div>
+        </div>
+    </div>
+
+    <!-- FontAwesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- UA Parser for device fingerprinting -->
+    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1/dist/ua-parser.min.js"></script>
+    
+    <script>
+      // Generate a consistent device fingerprint based on device characteristics
+      function generateDeviceFingerprint() {
+        var parser = new UAParser();
+        var device = parser.getDevice();
+        var os = parser.getOS();
+        var browser = parser.getBrowser();
+        
+        // Collect device characteristics
+        var fingerprint = [
+          navigator.userAgent,
+          navigator.language,
+          screen.width + 'x' + screen.height,
+          new Date().getTimezoneOffset(),
+          navigator.platform,
+          os.name + os.version,
+          browser.name + browser.version
+        ].join('|');
+        
+        // Create a hash of the fingerprint for consistency
+        var hash = 0;
+        for (var i = 0; i < fingerprint.length; i++) {
+          var char = fingerprint.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash; // Convert to 32-bit integer
+        }
+        
+        return 'fp_' + Math.abs(hash).toString(36);
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        // Use consistent device fingerprint
+        let deviceFingerprint = generateDeviceFingerprint();
+        document.getElementById('device_fingerprint_field').value = deviceFingerprint;
+        
+        // Device name using UAParser.js
+        var parser = new UAParser();
+        var device = parser.getDevice();
+        var os = parser.getOS();
+        var browser = parser.getBrowser();
+        let deviceName = '';
+        if (device.vendor || device.model) {
+          deviceName = (device.vendor ? device.vendor + ' ' : '') + (device.model ? device.model : '');
+        } else {
+          deviceName = os.name + ' ' + os.version;
+        }
+        deviceName += ' - ' + browser.name + ' ' + browser.version;
+        document.getElementById('device_name_field').value = deviceName;
+        
+        // Auto-focus on code input
+        document.querySelector('input[name="verification_code"]').focus();
+      });
+    </script>
+</body>
+</html>

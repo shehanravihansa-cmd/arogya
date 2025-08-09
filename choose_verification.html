@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Verification Method</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/choose_verification.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="verification-choice">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <h1 class="text-center mb-4">Choose Your Verification Method</h1>
+            <p class="text-center text-muted mb-5">Please select your preferred two-factor authentication method:</p>
+
+            <div class="choices-container">
+                <div class="choice-column">
+                    <div class="choice-card position-relative" data-url="{{ url_for('verify_qr_totp') }}">
+                        <div class="recommended-badge">Recommended</div>
+                        <div class="choice-icon qr-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="choice-title">QR Code / TOTP</div>
+                        <div class="choice-description">
+                            Use your Google Authenticator or similar app to scan a QR code and generate time-based codes.
+                            <br><br>
+                            <strong>Benefits:</strong>
+                            <ul class="text-left mt-3">
+                                <li>More secure</li>
+                                <li>Works offline</li>
+                                <li>Industry standard</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="choice-column">
+                    <div class="choice-card" data-url="{{ url_for('verify_email') }}">
+                        <div class="choice-icon email-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="choice-title">Email Verification</div>
+                        <div class="choice-description">
+                            Receive a 6-digit verification code via email to complete your login.
+                            <br><br>
+                            <strong>Benefits:</strong>
+                            <ul class="text-left mt-3">
+                                <li>Simple and familiar</li>
+                                <li>No app required</li>
+                                <li>Easy to use</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('logout') }}" class="btn btn-secondary">Cancel & Logout</a>
+            </div>
+
+            <div class="alert alert-info mt-4">
+                <i class="fas fa-info-circle"></i>
+                <strong>Note:</strong> You can mark your device as trusted after verification to skip this step in the future.
+            </div>
+        </div>
+    </div>
+
+    <!-- FontAwesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event listeners to choice cards
+            const choiceCards = document.querySelectorAll('.choice-card');
+            choiceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    if (url) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>AROGYA - Appointment Bookings Management</title>
+    <meta name="author" content="AROGYA Healthcare Directory">
+    <meta name="robots" content="index follow">
+    <meta name="googlebot" content="index follow">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="directory, doctor, doctor directory, Health directory, listing, map, medical, medical directory, professional directory, reservation, reviews">
+    <meta name="description" content="Health Care & Medical Services Directory">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700" rel="stylesheet">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hover-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant_icon.css') }}">
+    <!-- Load responsive navigation CSS last to override conflicts -->
+    <link rel="stylesheet" href="assets/css/responsive-nav.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}">
+    <!-- jQuery Library -->
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <!-- FontAwesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <header class="background-white box-shadow fixed-top z-index-99">
+        <nav class="container-fluid header-in">
+            <div class="row">
+                <div class="col-xl-2 col-lg-2">
+                    <a id="logo" href="{{ url_for('index') }}" class="d-inline-block margin-tb-15px"><img src="{{ url_for('static', filename='img/logo-1.png') }}" alt=""></a>
+                    <a class="mobile-toggle padding-13px background-main-color" href="#"><i class="fas fa-bars"></i></a>
+                </div>
+                <div class="col-xl-6 col-lg-8 position-inherit">
+                    <ul id="menu-main" class="nav-menu float-lg-right link-padding-tb-20px">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li class="has-dropdown"><a href="#">Listings</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('map_grid_layout') }}">Clinics</a></li>
+                                <li><a href="{{ url_for('doctor_layout') }}">Doctors</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('page_pricing_tables') }}">Packages</a></li>
+                        <li class="has-dropdown"><a href="#">Dashboard</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('dashboard_home') }}">Dashboard Home</a></li>
+                                <li><a href="{{ url_for('dashboard_my_listings') }}">My Listings</a></li>
+                                <li><a href="{{ url_for('dashboard_my_favorites') }}">My Favorites</a></li>
+                                <li><a href="{{ url_for('dashboard_reviews') }}">Reviews</a></li>
+                                <li><a href="{{ url_for('dashboard_bookings') }}">Bookings</a></li>
+                                <li><a href="{{ url_for('dashboard_add_listing') }}">Add Listing</a></li>
+                                <li><a href="{{ url_for('dashboard_my_profile') }}">My Profile</a></li>
+                                <li><a href="{{ url_for('security_dashboard') }}">Security Dashboard</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('blog') }}">Blog Articles</a></li>
+                        <li><a href="{{ url_for('page_about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('page_contact_us') }}">Contact Us</a></li>
+                    </ul>
+
+                </div>
+                <div class="col-xl-4 d-none d-xl-block">
+                    <hr class="margin-bottom-0px d-block d-sm-none">
+                    <a href="{{ url_for('dashboard_add_listing') }}" class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color  box-shadow float-right padding-lr-25px margin-left-30px"><i class="fas fa-plus-circle  margin-right-7px"></i>  Add list</a>
+
+                    <div class="nav-item dropdown float-left">
+                        <a href="{{ url_for('dashboard_my_profile') }}" class="margin-top-15px d-inline-block text-grey-3 margin-right-15px"><img src="http://placehold.it/60x60" class="height-30px border-radius-30" alt=""> Salim Aldosery</a>
+                    </div>
+
+                    <div class="nav-item float-left">
+                        <a href="#" class="nav-link margin-top-10px" data-toggle="modal" data-target="#exampleModal">
+                            <div class="text-grey-3"><i class="fa fa-fw fa-sign-out-alt"></i>Logout</div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- // Header  -->    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark z-index-9 fixed-top" id="mainNav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand" href="{{ url_for('dashboard_home') }}">
+            <i class="fa fa-fw fa-tachometer-alt"></i> AROGYA Dashboard
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <ul class="navbar-nav navbar-sidenav background-main-color admin-nav" id="admin-nav">
+                <li class="nav-item">
+                    <span class="nav-title-text">Main</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="{{ url_for('dashboard_home') }}">
+                        <i class="fas fa-fw fa-home"></i><span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My items">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_listings') }}">
+                <i class="fa fa-fw fa-table"></i>
+                <span class="nav-link-text">My Listings</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Favorites">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_favorites') }}">
+                <i class="fa fa-fw fa-heart"></i>
+                <span class="nav-link-text">My Favorites</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+                    <a class="nav-link" href="{{ url_for('dashboard_reviews') }}">
+                <i class="fa fa-fw fa-star"></i>
+                <span class="nav-link-text">Reviews</span>
+              </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-title-text">Example Pages</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookings">
+                    <a class="nav-link active" href="{{ url_for('dashboard_bookings') }}">
+                        <i class="far fa-fw fa-bookmark"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Listing">
+                    <a class="nav-link" href="{{ url_for('dashboard_add_listing') }}">
+                        <i class="fa fa-fw fa-plus-circle"></i>
+                        <span class="nav-link-text">Add Listing</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Packages">
+                    <a class="nav-link" href="{{ url_for('dashboard_packages') }}">
+                        <i class="far fa-fw fa-list-alt"></i>
+                        <span class="nav-link-text">Packages</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-title-text">User Area</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Profile">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_profile') }}">
+                        <i class="fa fa-fw fa-user-circle"></i>
+                        <span class="nav-link-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sign Out">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out-alt"></i>
+                        <span class="nav-link-text">Sing Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="container-fluid overflow-hidden">
+            <div class="row margin-tb-90px margin-lr-10px sm-mrl-0px">
+                <!-- Page Title -->
+                <div id="page-title" class="padding-30px background-white full-width">
+                    <div class="container">
+                        <ol class="breadcrumb opacity-5">
+                            <li><a href="{{ url_for('index') }}">Home</a></li>
+                            <li><a href="{{ url_for('dashboard_home') }}">Dashboard</a></li>
+                            <li class="active">Appointment Bookings</li>
+                        </ol>
+                        <h1 class="font-weight-300">Appointment Bookings</h1>
+                    </div>
+                </div>
+                <!-- // Page Title -->
+                <div class="row margin-top-45px">
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Kamal Wijesinghe</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 5, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Nawaloka Heart Center</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">kamal.w@gmail.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 77 123 4567</a></div>
+                                    <p class="margin-top-15px text-grey-2">Requesting cardiology consultation for chest pain and irregular heartbeat. Preferred appointment time: 2:00 PM. Has previous medical records available.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Priyanka Fernando</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 7, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Asiri Dermatology Clinic</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">priyanka.f@yahoo.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 71 987 6543</a></div>
+                                    <p class="margin-top-15px text-grey-2">Seeking dermatological treatment for persistent skin condition. Available any time after 10:00 AM. First-time patient requiring consultation.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Roshan Silva</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 8, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Lanka Hospitals Pediatrics</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">roshan.silva@outlook.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 76 456 7890</a></div>
+                                    <p class="margin-top-15px text-grey-2">Pediatric appointment for 5-year-old child with recurring fever. Urgent consultation needed. Available morning slots preferred.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Nimal Rajapaksha</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 10, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Durdans Orthopedic Center</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">nimal.r@gmail.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 70 234 5678</a></div>
+                                    <p class="margin-top-15px text-grey-2">Orthopedic consultation for knee injury from sports. X-rays completed. Follow-up appointment for treatment plan discussion.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b647?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Sandya Perera</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 12, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Apollo Eye Hospital</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">sandya.perera@hotmail.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 75 345 6789</a></div>
+                                    <p class="margin-top-15px text-grey-2">Eye examination for blurred vision and headaches. Referred by family doctor. Requesting comprehensive eye test and consultation.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                    <!-- Booking item -->
+                    <div class="col-lg-6 margin-bottom-45px full-width">
+                        <div class="background-white thum-hover box-shadow  hvr-float">
+                            <div class="padding-30px full-width">
+                                <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                <div class="margin-left-85px">
+                                    <a class="d-block text-dark text-medium margin-bottom-5px" href="#">Chaminda Wickramasinghe</a>
+                                    <div class="d-block padding-tb-5px">Date :  <a href="#" class="text-main-color">August 15, 2025</a></div>
+                                    <div class="d-block padding-tb-5px">Listing Name :  <a href="#" class="text-main-color">Colombo Neurology Institute</a></div>
+                                    <div class="d-block padding-tb-5px">Email :  <a href="#" class="text-main-color">chaminda.w@live.com</a></div>
+                                    <div class="d-block padding-tb-5px">Phone  :  <a href="#" class="text-main-color">+94 78 567 8901</a></div>
+                                    <p class="margin-top-15px text-grey-2">Neurological consultation for persistent migraines and memory issues. MRI scan completed. Seeking specialist evaluation and treatment options.</p>
+                                    <a href="#" class="d-inline-block text-grey-2 text-up-small"><i class="far fa-file-alt"></i> Approve</a>
+                                    <a href="#" class="d-inline-block margin-lr-20px text-grey-2 text-up-small"><i class="far fa-window-close"></i> Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Booking item -->
+
+
+                </div>
+
+                <!-- pagination -->
+                <ul class="pagination pagination-md">
+                    <li class="page-item disabled"><a class="page-link rounded-0" href="#" tabindex="-1">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link rounded-0" href="#">Next</a></li>
+                </ul>
+                <!-- //pagination -->
+
+            </div>
+        </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <span>© 2025 AROGYA Healthcare Directory | All Rights Reserved <a class="text-grey-2 margin-left-15px" href="#" target="_blank">Powered by AROGYA Platform</a></span>
+                </div>
+            </div>
+        </footer>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ url_for('login') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/sticky-sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/YouTubePopUp.jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+</body>
+
+</html>

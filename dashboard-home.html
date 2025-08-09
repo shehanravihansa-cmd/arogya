@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>AROGYA - Healthcare Dashboard</title>
+    <meta name="author" content="AROGYA Health Directory">
+    <meta name="robots" content="index follow">
+    <meta name="googlebot" content="index follow">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="Sri Lanka healthcare, medical directory, doctor appointments, hospital listings, clinic finder, healthcare dashboard">
+    <meta name="description" content="AROGYA - Sri Lanka's Premier Healthcare Directory and Management Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hover-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant_icon.css') }}">
+    <!-- Load responsive navigation CSS last to override conflicts -->
+    <link rel="stylesheet" href="assets/css/responsive-nav.css">
+
+    <!-- jQuery Library -->
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <!-- FontAwesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+
+<body>
+
+<!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark z-index-9 fixed-top" id="mainNav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand" href="{{ url_for('dashboard_home') }}">
+            <i class="fa fa-fw fa-tachometer-alt"></i> AROGYA Dashboard
+        </a>
+        
+        <!-- Home Button -->
+        <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-sm ms-auto me-3 d-none d-lg-inline-block">
+            <i class="fas fa-home"></i> Go Home
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <ul class="navbar-nav navbar-sidenav background-main-color admin-nav" id="admin-nav">
+                <li class="nav-item">
+                    <span class="nav-title-text">Main</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link active" href="{{ url_for('dashboard_home') }}">
+                        <i class="fas fa-fw fa-home"></i><span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My items">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_listings') }}">
+                <i class="fa fa-fw fa-table"></i>
+                <span class="nav-link-text">My Listings</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Favorites">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_favorites') }}">
+                <i class="fa fa-fw fa-heart"></i>
+                <span class="nav-link-text">My Favorites</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+                    <a class="nav-link" href="{{ url_for('dashboard_reviews') }}">
+                <i class="fa fa-fw fa-star"></i>
+                <span class="nav-link-text">Reviews</span>
+              </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-title-text">Example Pages</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookings">
+                    <a class="nav-link" href="{{ url_for('dashboard_bookings') }}">
+                        <i class="far fa-fw fa-bookmark"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Listing">
+                    <a class="nav-link" href="{{ url_for('dashboard_add_listing') }}">
+                        <i class="fa fa-fw fa-plus-circle"></i>
+                        <span class="nav-link-text">Add Listing</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Packages">
+                    <a class="nav-link" href="{{ url_for('dashboard_packages') }}">
+                        <i class="far fa-fw fa-list-alt"></i>
+                        <span class="nav-link-text">Packages</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-title-text">User Area</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Profile">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_profile') }}">
+                        <i class="fa fa-fw fa-user-circle"></i>
+                        <span class="nav-link-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sign Out">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out-alt"></i>
+                        <span class="nav-link-text">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="container-fluid overflow-hidden">
+            <div class="row margin-tb-90px margin-lr-10px sm-mrl-0px">
+                
+                <div class="col-xl-3 col-md-6 margin-bottom-30px">
+                    <a class="d-block padding-30px background-main-color box-shadow border-radius-10 hvr-float">
+                        <h6 class="text-white margin-0px font-weight-400">
+                            <i class="far fa-map text-icon-large margin-bottom-10px opacity-5 d-block"></i>
+                            <span class="font-2 text-extra-large">156</span>
+                            <span class="margin-left-10px">Healthcare Listings</span>
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-md-6 margin-bottom-30px">
+                    <a class="d-block padding-30px background-lime box-shadow border-radius-10 hvr-float">
+                        <h6 class="text-white margin-0px font-weight-400">
+                            <i class="far fa-user text-icon-large margin-bottom-10px opacity-5 d-block"></i>
+                            <span class="font-2 text-extra-large">89</span>
+                            <span class="margin-left-10px">Registered Doctors</span>
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-md-6 margin-bottom-30px">
+                    <a class="d-block padding-30px background-amber box-shadow border-radius-10 hvr-float">
+                        <h6 class="text-white margin-0px font-weight-400">
+                            <i class="far fa-star text-icon-large margin-bottom-10px opacity-5 d-block"></i>
+                            <span class="font-2 text-extra-large">1,250</span>
+                            <span class="margin-left-10px">Patient Reviews</span>
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-md-6 margin-bottom-30px">
+                    <a class="d-block padding-30px background-red box-shadow border-radius-10 hvr-float">
+                        <h6 class="text-white margin-0px font-weight-400">
+                            <i class="fas fa-chart-line text-icon-large margin-bottom-10px opacity-5 d-block"></i>
+                            <span class="font-2 text-extra-large">25,680</span>
+                            <span class="margin-left-10px">Monthly Visitors</span>
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="col-12">
+
+                    <div class="alert alert-info  margin-bottom-35px border-radius-10 padding-30px">
+                        <strong>Welcome to AROGYA!</strong> Your healthcare management dashboard is ready.
+                        <hr>
+                        <p class="margin-0px">Manage your healthcare listings, connect with patients, and access comprehensive healthcare services across Sri Lanka. AROGYA is committed to improving healthcare accessibility and quality in our communities.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="margin-bottom-30px">
+                                <div class="padding-30px background-white border-radius-20 box-shadow">
+                                    <h3><i class="far fa-envelope-open margin-right-10px text-main-color"></i> Healthcare Announcements </h3>
+                                    <hr>
+                                    <textarea class="form-control" placeholder="Share important healthcare updates, new services, or community health information..." id="exampleTextarea" rows="3"></textarea>
+                                    <a href="#" class="btn btn-md border-0 border-radius-10 background-main-color padding-lr-20px text-white margin-tb-10px">Publish Announcement</a>
+                                </div>
+                            </div>
+
+                            <!-- -->
+                            <div class="margin-bottom-30px">
+                                <div class="padding-30px background-white border-radius-20 box-shadow">
+                                    <h3><i class="far fa-bell margin-right-10px text-main-color"></i> Latest Activities </h3>
+                                    <hr>
+                                    <ul class="commentlist padding-0px margin-0px list-unstyled text-grey-3 clearfix">
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <div class="padding-bottom-15px">
+                                                <a class="d-block text-grey-2" href="#">
+                                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=60&h=60&fit=crop&crop=face" class="height-30px margin-right-5px border-radius-30" alt=""> 
+                                        <span class="text-black">Dr. Kumari Wickramasinghe</span> updated her clinic hours </a>
+                                                <span class="text-extra-small text-grey-4 margin-left-40px">Date :  <a href="#" class="text-grey-2">August 2, 2025</a></span>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <div class="padding-bottom-15px">
+                                                <a class="d-block text-grey-2" href="#">
+                                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=60&h=60&fit=crop&crop=face" class="height-30px margin-right-5px border-radius-30" alt=""> 
+                                        <span class="text-black">Dr. Saminda Rajapaksha</span> added new orthopedic services </a>
+                                                <span class="text-extra-small text-grey-4 margin-left-40px">Date :  <a href="#" class="text-grey-2">August 1, 2025</a></span>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <div class="padding-bottom-15px">
+                                                <a class="d-block text-grey-3" href="#">
+                                        <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=60&h=60&fit=crop&crop=face" class="height-30px margin-right-5px border-radius-30" alt=""> 
+                                        <span class="text-black">Dr. Neesha Perera</span> received excellent patient feedback </a>
+                                                <span class="text-extra-small text-grey-4 margin-left-40px">Date :  <a href="#" class="text-grey-2">July 31, 2025</a></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="padding-bottom-15px">
+                                                <a class="d-block text-grey-2" href="#">
+                                        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=60&h=60&fit=crop&crop=face" class="height-30px margin-right-5px border-radius-30" alt=""> 
+                                        <span class="text-black">Dr. Priyantha Fernando</span> joined AROGYA network </a>
+                                                <span class="text-extra-small text-grey-4 margin-left-40px">Date :  <a href="#" class="text-grey-2">July 30, 2025</a></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <!-- -->
+                            <div class="margin-bottom-30px">
+                                <div class="padding-30px background-white border-radius-20 box-shadow">
+                                    <h3><i class="far fa-star margin-right-10px text-main-color"></i> Latest Reviews </h3>
+                                    <hr>
+                                    <ul class="commentlist padding-0px margin-0px list-unstyled text-grey-3">
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                            <div class="margin-left-85px">
+                                                <a class="d-inline-block text-dark text-medium margin-right-20px" href="#">Priya Jayawardena</a>
+                                                <span class="text-extra-small">Date :  <a href="#" class="text-main-color">August 1, 2025</a></span>
+                                                <div class="rating">
+                                                    <ul>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                    </ul>
+                                                </div>
+                                                <p class="margin-top-15px text-grey-2">Excellent service at Nawaloka Hospital. Dr. Fernando was very professional and the staff was incredibly helpful throughout my treatment.</p>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                            <div class="margin-left-85px">
+                                                <a class="d-inline-block text-dark text-medium margin-right-20px" href="#">Rohan Perera</a>
+                                                <span class="text-extra-small">Date :  <a href="#" class="text-main-color">July 30, 2025</a></span>
+                                                <div class="rating">
+                                                    <ul>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li></li>
+                                                    </ul>
+                                                </div>
+                                                <p class="margin-top-15px text-grey-2">Dr. Wickramasinghe's dermatology clinic provided exceptional care. Easy booking through AROGYA platform and prompt service.</p>
+                                            </div>
+                                        </li>
+                                        <li class="border-bottom-1 border-grey-1 margin-bottom-20px">
+                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&crop=face" class="float-left margin-right-20px border-radius-60 margin-bottom-20px" alt="">
+                                            <div class="margin-left-85px">
+                                                <a class="d-inline-block text-dark text-medium margin-right-20px" href="#">Chamila Silva</a>
+                                                <span class="text-extra-small">Date :  <a href="#" class="text-main-color">July 28, 2025</a></span>
+                                                <div class="rating">
+                                                    <ul>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                        <li class="active"></li>
+                                                    </ul>
+                                                </div>
+                                                <p class="margin-top-15px text-grey-2">AROGYA made finding the right pediatrician so easy. Dr. Perera at Asiri Hospital was wonderful with my children.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <span>© 2025 AROGYA Healthcare Directory | All Rights Reserved <a class="text-grey-2 margin-left-15px" href="#" target="_blank">Empowering Healthcare in Sri Lanka</a></span>
+                </div>
+            </div>
+        </footer>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ url_for('login') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/sticky-sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/YouTubePopUp.jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+</body>
+
+</html>

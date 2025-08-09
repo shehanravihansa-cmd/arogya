@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>AROGYA - Healthcare Packages</title>
+    <meta name="author" content="AROGYA Healthcare Directory">
+    <meta name="robots" content="index follow">
+    <meta name="googlebot" content="index follow">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="directory, doctor, doctor directory, Health directory, listing, map, medical, medical directory, professional directory, reservation, reviews">
+    <meta name="description" content="Health Care & Medical Services Directory">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}" />
+    <!-- owl Carousel assets -->
+    <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/owl.theme.css') }}" rel="stylesheet">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- hover anmation -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hover-min.css') }}">
+    <!-- flag icon -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flag-icon.min.css') }}">
+    <!-- main style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- colors -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/main.css') }}">
+    <!-- elegant icon -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant_icon.css') }}">
+    <!-- Load responsive navigation CSS last to override conflicts -->
+    <link rel="stylesheet" href="assets/css/responsive-nav.css">
+    <!-- admin style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}">
+    <!-- jquery library  -->
+    <script  src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <!-- fontawesome  -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+</head>
+
+<body>
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark z-index-9 fixed-top" id="mainNav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand" href="{{ url_for('dashboard_home') }}">
+            <i class="fa fa-fw fa-tachometer-alt"></i> AROGYA Dashboard
+        </a>
+        
+        <!-- Home Button -->
+        <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-sm ms-auto me-3 d-none d-lg-inline-block">
+            <i class="fas fa-home"></i> Go Home
+        </a>
+        
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <!-- Mobile Home Button -->
+            <div class="d-lg-none p-3 border-bottom border-secondary">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-sm w-100">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+            </div>
+
+            <ul class="navbar-nav navbar-sidenav background-main-color admin-nav" id="admin-nav">
+                <li class="nav-item">
+                    <span class="nav-title-text">Main</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="{{ url_for('dashboard_home') }}">
+                        <i class="fas fa-fw fa-home"></i><span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My items">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_listings') }}">
+                <i class="fa fa-fw fa-table"></i>
+                <span class="nav-link-text">My Listings</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Favorites">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_favorites') }}">
+                <i class="fa fa-fw fa-heart"></i>
+                <span class="nav-link-text">My Favorites</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+                    <a class="nav-link" href="{{ url_for('dashboard_reviews') }}">
+                <i class="fa fa-fw fa-star"></i>
+                <span class="nav-link-text">Reviews</span>
+              </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-title-text">Example Pages</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookings">
+                    <a class="nav-link" href="{{ url_for('dashboard_bookings') }}">
+                        <i class="far fa-fw fa-bookmark"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Listing">
+                    <a class="nav-link" href="{{ url_for('dashboard_add_listing') }}">
+                        <i class="fa fa-fw fa-plus-circle"></i>
+                        <span class="nav-link-text">Add Listing</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Packages">
+                    <a class="nav-link active" href="{{ url_for('dashboard_packages') }}">
+                        <i class="far fa-fw fa-list-alt"></i>
+                        <span class="nav-link-text">Packages</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-title-text">User Area</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Profile">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_profile') }}">
+                        <i class="fa fa-fw fa-user-circle"></i>
+                        <span class="nav-link-text">My Profile</span>
+                    </a>
+                </li>                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Security Dashboard">
+                    <a class="nav-link" href="{{ url_for('security_dashboard') }}">
+                        <i class="fa fa-fw fa-shield-alt"></i>
+                        <span class="nav-link-text">Security Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sign Out">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out-alt"></i>
+                        <span class="nav-link-text">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="container-fluid overflow-hidden">
+            <div class="row margin-tb-90px margin-lr-10px sm-mrl-0px">
+                <!-- Page Title -->
+                <div id="page-title" class="padding-30px background-white full-width">
+                    <div class="container">
+                        <ol class="breadcrumb opacity-5">
+                            <li><a href="{{ url_for('index') }}">Home</a></li>
+                            <li><a href="{{ url_for('dashboard_home') }}">Dashboard</a></li>
+                            <li class="active">Healthcare Packages</li>
+                        </ol>
+                        <h1 class="font-weight-300">Healthcare Packages</h1>
+                    </div>
+                </div>
+                <!-- // Page Title -->
+
+                <div class="margin-tb-45px full-width">
+                    
+                    <div class="row">
+
+                        <!-- Pricing -->
+                        <div class="col-lg-4 col-md-4  col-sm-6 sm-mb-40px wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                            <div class="pricing hover-effect">
+                                <div class="pricing-head text-center">
+                                    <h3 class="font-weight-700 padding-40px background-main-color margin-0px text-white">
+                                        <span class=" z-index-2 position-relative d-block">
+                                    BASIC<span class="d-block text-small font-weight-300">For casual users looking for basic healthcare provider details.</span>
+                                        </span>
+                                    </h3>
+                                    <h2 class="background-grey-1 margin-0px padding-15px">
+                                        <i class="text-up-small"></i>FREE<span class="text-up-small"></span>
+                                        <span class="d-block text-small"></span>
+                                    </h2>
+                                </div>
+                                <ul class="pricing-content text-center list-unstyled background-white">
+                                    <li>Access to Doctor & Clinic Listings</li>
+                                    <li>Search and Filter Options (Specialties, Location, Ratings)</li>
+                                    <li>View Doctor Profiles (Experience, Education, etc.)</li>
+                                    <li>Contact Information for Doctors and Clinics</li>
+                                    <li>Standard Support</li>
+                                </ul>
+                                <div class="pricing-footer">
+                                    <a href="{{ url_for('signup') }}" class="btn btn-block background-grey-1 text-dark rounded-0">Sign Up</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Pricing -->
+
+                        <!-- Pricing -->
+                        <div class="col-lg-4 col-md-4  col-sm-6 sm-mb-40px wow fadeInUp" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                            <div class="pricing hover-effect box-shadow">
+                                <div class="pricing-head text-center">
+                                    <h3 class="font-weight-700 padding-40px background-second-color margin-0px text-white">
+                                        <span class=" z-index-2 position-relative d-block">
+                                    PROFESSIONAL<span class="d-block text-small font-weight-300">For patients seeking detailed listings and additional services.</span>
+                                        </span>
+                                    </h3>
+                                    <h2 class="background-grey-1 margin-0px padding-15px">
+                                        <span class="text-up-small">LKR</span>1, 990<span class="text-up-small">.00</span>
+                                        <span class="d-block text-small">Per Month </span>
+                                    </h2>
+                                </div>
+                                <ul class="pricing-content text-center list-unstyled background-white">
+                                    <li>Everything in BASIC</li>
+                                    <li>Book Appointments with Doctors & Clinics</li>
+                                    <li>Detailed Reviews & Ratings</li>
+                                    <li>Appointment Reminders via SMS/Email</li>
+                                    <li>Priority Support</li>
+                                </ul>
+                                <div class="pricing-footer">
+                                    <a href="{{ url_for('signup') }}" class="btn btn-block background-second-color text-white rounded-0">Purchase</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Pricing -->
+
+                        <!-- Pricing -->
+                        <div class="col-lg-4 col-md-4  col-sm-6 sm-mb-40px wow fadeInUp" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+                            <div class="pricing hover-effect">
+                                <div class="pricing-head text-center">
+                                    <h3 class="font-weight-700 padding-40px background-main-color margin-0px text-white">
+                                        <span class=" z-index-2 position-relative d-block">
+                                    PREMIUM<span class="d-block text-small font-weight-300">For users who want complete access to all features and top-tier services.</span>
+                                        </span>
+                                    </h3>
+                                    <h2 class="background-grey-1 margin-0px padding-15px">
+                                        <span class="text-up-small">LKR</span>2, 990<span class="text-up-small">.00</span>
+                                        <span class="d-block text-small">Per Month </span>
+                                    </h2>
+                                </div>
+                                <ul class="pricing-content text-center list-unstyled background-white">
+                                    <li>Everything in PROFESSIONAL</li>
+                                    <li>Personalized Doctor/Clinic Recommendations</li>
+                                    <li>Virtual Consultation Scheduling</li>
+                                    <li>Access to Health Resources and Articles</li>
+                                    <li>24/7 Premium Support</li>
+                                </ul>
+                                <div class="pricing-footer">
+                                    <a href="{{ url_for('signup') }}" class="btn btn-block background-grey-1 text-dark rounded-0">Purchase</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Pricing -->
+                    </div>
+                    
+                </div>
+
+
+            </div>
+        </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <span>© 2025 AROGYA Healthcare Directory | All Rights Reserved <a class="text-grey-2 margin-left-15px" href="#" target="_blank">Powered by AROGYA Platform</a></span>
+                </div>
+            </div>
+        </footer>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script  src="{{ url_for('static', filename='js/sticky-sidebar.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/YouTubePopUp.jquery.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/imagesloaded.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script  src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+</body>
+
+</html>

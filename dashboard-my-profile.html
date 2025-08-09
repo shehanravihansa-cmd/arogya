@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Tabib HTML5 Health Directory Template</title>
+    <meta name="author" content="Nile-Theme">
+    <meta name="robots" content="index follow">
+    <meta name="googlebot" content="index follow">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="directory, doctor, doctor directory, Health directory, listing, map, medical, medical directory, professional directory, reservation, reviews">
+    <meta name="description" content="Health Care & Medical Services Directory">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700" rel="stylesheet">
+    <!-- animate -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}" />
+    <!-- owl Carousel assets -->
+    <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/owl.theme.css') }}" rel="stylesheet">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- hover anmation -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hover-min.css') }}">
+    <!-- flag icon -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flag-icon.min.css') }}">
+    <!-- main style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- colors -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/main.css') }}">
+    <!-- elegant icon -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant_icon.css') }}">
+    <!-- Load responsive navigation CSS last to override conflicts -->
+    <link rel="stylesheet" href="assets/css/responsive-nav.css">
+    <!-- admin style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin.css') }}">
+    <!-- jquery library  -->
+    <script  src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <!-- fontawesome  -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <header class="background-white box-shadow fixed-top z-index-99">
+        <nav class="container-fluid header-in">
+            <div class="row">
+                <div class="col-xl-2 col-lg-2">
+                    <a id="logo" href="{{ url_for('index') }}" class="d-inline-block margin-tb-15px"><img src="{{ url_for('static', filename='img/logo-1.png') }}" alt=""></a>
+                    <a class="mobile-toggle padding-13px background-main-color" href="#"><i class="fas fa-bars"></i></a>
+                </div>
+                <div class="col-xl-6 col-lg-8 position-inherit">
+                    <ul id="menu-main" class="nav-menu float-lg-right link-padding-tb-20px">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li class="has-dropdown"><a href="#">Listings</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('map_grid_layout') }}">Clinics</a></li>
+                                <li><a href="{{ url_for('doctor_layout') }}">Doctors</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('page_pricing_tables') }}">Packages</a></li>
+                        <li class="has-dropdown"><a href="#">Dashboard</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url_for('dashboard_home') }}">Dashboard Home</a></li>
+                                <li><a href="{{ url_for('dashboard_my_listings') }}">My Listings</a></li>
+                                <li><a href="{{ url_for('dashboard_my_favorites') }}">My Favorites</a></li>
+                                <li><a href="{{ url_for('dashboard_reviews') }}">Reviews</a></li>
+                                <li><a href="{{ url_for('dashboard_bookings') }}">Bookings</a></li>
+                                <li><a href="{{ url_for('dashboard_add_listing') }}">Add Listing</a></li>
+                                <li><a href="{{ url_for('dashboard_my_profile') }}">My Profile</a></li>
+                                <li><a href="{{ url_for('security_dashboard') }}">Security Dashboard</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('blog') }}">Blog Articles</a></li>
+                        <li><a href="{{ url_for('page_about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('page_contact_us') }}">Contact Us</a></li>
+                    </ul>
+
+                </div>
+                <div class="col-xl-4 d-none d-xl-block">
+                    <hr class="margin-bottom-0px d-block d-sm-none">
+                    <a href="{{ url_for('dashboard_add_listing') }}" class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color  box-shadow float-right padding-lr-25px margin-left-30px"><i class="fas fa-plus-circle  margin-right-7px"></i>  Add list</a>
+
+                    <div class="nav-item dropdown float-left">
+                        <a href="{{ url_for('dashboard_my_profile') }}" class="margin-top-15px d-inline-block text-grey-3 margin-right-15px"><img src="http://placehold.it/60x60" class="height-30px border-radius-30" alt=""> {{ user_name or 'User' }}</a>
+                    </div>
+
+                    <div class="nav-item float-left">
+                        <a href="{{ url_for('logout') }}" class="nav-link margin-top-10px">
+                            <div class="text-grey-3"><i class="fa fa-fw fa-sign-out-alt"></i>Logout</div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- // Header  -->    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark z-index-9 fixed-top" id="mainNav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <a class="navbar-brand" href="{{ url_for('dashboard_home') }}">
+            <i class="fa fa-fw fa-tachometer-alt"></i> Dashboard
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+            <ul class="navbar-nav navbar-sidenav background-main-color admin-nav" id="admin-nav">
+                <li class="nav-item">
+                    <span class="nav-title-text">Main</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <a class="nav-link" href="{{ url_for('dashboard_home') }}">
+                        <i class="fas fa-fw fa-home"></i><span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My items">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_listings') }}">
+                <i class="fa fa-fw fa-table"></i>
+                <span class="nav-link-text">My Listings</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Favorites">
+                    <a class="nav-link" href="{{ url_for('dashboard_my_favorites') }}">
+                <i class="fa fa-fw fa-heart"></i>
+                <span class="nav-link-text">My Favorites</span>
+              </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
+                    <a class="nav-link" href="{{ url_for('dashboard_reviews') }}">
+                <i class="fa fa-fw fa-star"></i>
+                <span class="nav-link-text">Reviews</span>
+              </a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-title-text">Example Pages</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookings">
+                    <a class="nav-link" href="{{ url_for('dashboard_bookings') }}">
+                        <i class="far fa-fw fa-bookmark"></i>
+                        <span class="nav-link-text">Bookings</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add Listing">
+                    <a class="nav-link" href="{{ url_for('dashboard_add_listing') }}">
+                        <i class="fa fa-fw fa-plus-circle"></i>
+                        <span class="nav-link-text">Add Listing</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Packages">
+                    <a class="nav-link" href="{{ url_for('dashboard_packages') }}">
+                        <i class="far fa-fw fa-list-alt"></i>
+                        <span class="nav-link-text">Packages</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <span class="nav-title-text">User Area</span>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My Profile">
+                    <a class="nav-link active" href="{{ url_for('dashboard_my_profile') }}">
+                        <i class="fa fa-fw fa-user-circle"></i>
+                        <span class="nav-link-text">My Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Security Dashboard">
+                    <a class="nav-link" href="{{ url_for('security_dashboard') }}">
+                        <i class="fa fa-fw fa-shield-alt"></i>
+                        <span class="nav-link-text">Security Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sign Out">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-sign-out-alt"></i>
+                        <span class="nav-link-text">Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <div class="container-fluid overflow-hidden">
+            <div class="row margin-tb-90px margin-lr-10px sm-mrl-0px">
+                <!-- Page Title -->
+                <div id="page-title" class="padding-30px background-white full-width">
+                    <div class="container">
+                        <ol class="breadcrumb opacity-5">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li class="active">My Profile</li>
+                        </ol>
+                        <h1 class="font-weight-300">My Profile</h1>
+                    </div>
+                </div>
+                <!-- // Page Title -->
+
+                <div class="row margin-tb-45px full-width">
+                    <div class="col-md-4">
+                        <div class="padding-15px background-white">
+                            <a href="#" class="d-block margin-bottom-10px"><img src="http://placehold.it/500x500" alt=""></a>
+                            <a href="#" class="btn btn-sm  text-white background-main-color btn-block">Upload Image</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                      <form method="POST" action="{{ url_for('dashboard_my_profile') }}">
+                          <div class="row">
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="far fa-user margin-right-10px"></i> Full Name</label>
+                                  <input type="text" name="full_name" class="form-control form-control-sm" placeholder="Full Name" value="{{ user_data.full_name if user_data else '' }}">
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-id-card margin-right-10px"></i> NIC</label>
+                                  <input type="text" name="nic" class="form-control form-control-sm" placeholder="NIC" value="{{ user_data.nic if user_data else '' }}" readonly>
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="far fa-envelope-open margin-right-10px"></i> Email</label>
+                                  <input type="email" name="email" class="form-control form-control-sm" placeholder="Email" value="{{ user_data.email if user_data else '' }}">
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-mobile-alt margin-right-10px"></i> Phone</label>
+                                  <input type="text" name="phone" class="form-control form-control-sm" placeholder="Phone Number" value="{{ user_data.phone if user_data else '' }}">
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-calendar margin-right-10px"></i> Date of Birth</label>
+                                  <input type="date" name="dob" class="form-control form-control-sm" value="{{ user_data.dob if user_data else '' }}">
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-venus-mars margin-right-10px"></i> Gender</label>
+                                  <select name="gender" class="form-control form-control-sm">
+                                      <option value="Male" {% if user_data and user_data.gender == 'Male' %}selected{% endif %}>Male</option>
+                                      <option value="Female" {% if user_data and user_data.gender == 'Female' %}selected{% endif %}>Female</option>
+                                      <option value="Other" {% if user_data and user_data.gender == 'Other' %}selected{% endif %}>Other</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-12 margin-bottom-20px">
+                                  <label><i class="fas fa-map-marker-alt margin-right-10px"></i> Address</label>
+                                  <textarea name="address" class="form-control form-control-sm" rows="3" placeholder="Address">{{ user_data.address if user_data else '' }}</textarea>
+                              </div>
+                          </div>
+                          <hr class="margin-tb-40px">
+                          <div class="row">
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-lock margin-right-10px"></i> New Password (Leave blank to keep current)</label>
+                                  <input type="password" name="new_password" class="form-control form-control-sm" placeholder="New Password">
+                              </div>
+                              <div class="col-md-6 margin-bottom-20px">
+                                  <label><i class="fas fa-lock margin-right-10px"></i> Confirm New Password</label>
+                                  <input type="password" name="confirm_password" class="form-control form-control-sm" placeholder="Confirm Password">
+                              </div>
+                          </div>
+                          <button type="submit" class="btn btn-md padding-lr-25px text-white background-main-color btn-inline-block">Update Profile</button>
+                      </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.container-fluid-->
+        <!-- /.content-wrapper-->
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <span>© 2025 AROGYA Healthcare Directory | All Rights Reserved <a class="text-grey-2 margin-left-15px" href="#" target="_blank">Powered by AROGYA Platform</a></span>
+                </div>
+            </div>
+        </footer>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/sticky-sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/YouTubePopUp.jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+</body>
+
+</html>

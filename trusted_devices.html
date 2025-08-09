@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trusted Devices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/trusted_devices.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Trusted Devices</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if devices and devices|length > 0 %}
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Device Fingerprint</th>
+                        <th>Device Name</th>
+                        <th>Last Used</th>
+                        <th>Trusted</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for device in devices %}
+                    <tr>
+                        <td>{{ device[1] }}</td>
+                        <td>{{ device[2] or 'Unknown' }}</td>
+                        <td>{{ device[3] }}</td>
+                        <td>{{ 'Yes' if device[4] else 'No' }}</td>
+                        <td>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="device_id" value="{{ device[0] }}">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Revoke this device?');">Revoke</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No trusted devices found.</p>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+</body>
+</html> 

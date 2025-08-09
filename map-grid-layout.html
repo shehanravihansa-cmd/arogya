@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<title>AROGYA - Medical Clinics Directory</title>
+	<meta name="author" content="Nile-Theme">
+	<meta name="robots" content="index follow">
+	<meta name="googlebot" content="index follow">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="directory, doctor, doctor directory, Health directory, listing, map, medical, medical directory, professional directory, reservation, reviews">
+	<meta name="description" content="Health Care & Medical Services Directory">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:300i,300,400,700,400i,500%7CDancing+Script:700%7CDancing+Script:700" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hover-min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/elegant_icon.css') }}">
+
+    <!-- jQuery Library -->
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <!-- FontAwesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div id="fixed-header-dark" class="header-output fixed-header">
+            <div class="container header-in">
+                <div class="row">
+                    <div class="col-lg-2 col-md-12">
+                        <a id="logo" href="{{ url_for('index') }}" class="d-inline-block margin-tb-15px">
+                            <img src="{{ url_for('static', filename='img/logo-1.png') }}" alt="">
+                        </a>
+                        <a class="mobile-toggle padding-13px background-main-color" href="#"><i class="fas fa-bars"></i></a>
+                    </div>
+                    <!-- Navigation Menu -->
+                    <div class="col-lg-7 col-md-12 position-inherit">
+                        <ul id="menu-main" class="nav-menu float-lg-right link-padding-tb-20px">
+                            <li><a href="{{ url_for('index') }}">Home</a></li>
+                            <li class="has-dropdown"><a href="#">Listings</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ url_for('map_grid_layout') }}">Clinics</a></li>
+                                    <li><a href="{{ url_for('doctor_layout') }}">Doctors</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ url_for('page_pricing_tables') }}">Packages</a></li>
+                            <li class="has-dropdown"><a href="#">Dashboard</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ url_for('dashboard_home') }}">Dashboard Home</a></li>
+                                    <li><a href="{{ url_for('dashboard_my_listings') }}">My Listings</a></li>
+                                    <li><a href="{{ url_for('dashboard_my_favorites') }}">My Favorites</a></li>
+                                    <li><a href="{{ url_for('dashboard_reviews') }}">Reviews</a></li>
+                                    <li><a href="{{ url_for('dashboard_bookings') }}">Bookings</a></li>
+                                    <li><a href="{{ url_for('dashboard_add_listing') }}">Add Listing</a></li>
+                                    <li><a href="{{ url_for('dashboard_my_profile') }}">My Profile</a></li>
+                                    <li><a href="{{ url_for('security_dashboard') }}">Security Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ url_for('blog') }}">Blog Articles</a></li>
+                            <li><a href="{{ url_for('page_about') }}">About Us</a></li>
+                            <li><a href="{{ url_for('page_contact_us') }}">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <!-- Action Buttons -->
+                    <div class="col-lg-3 col-md-12">
+                        <hr class="margin-bottom-0px d-block d-sm-none">
+                        <a href="{{ url_for('dashboard_add_listing') }}" class="btn btn-sm border-radius-30 margin-tb-15px text-white background-second-color box-shadow float-right padding-lr-20px margin-left-30px">
+                            <i class="fas fa-plus-circle"></i> Add list
+                        </a>
+                        <a href="{{ url_for('login') }}" class="margin-tb-20px d-inline-block text-up-small float-left float-lg-right">
+                            <i class="far fa-user"></i> Login
+                        </a>
+                    </div>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                              
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="container-fluid" style="padding-top: 80px;">
+	<div class="row no-gutters">
+		<div class="col-lg-6">
+			<div class="map-distributors-in hight-full">
+				<div id="map-distributors" style="height: calc(100vh - 180px); min-height: 500px;">
+					<!-- Leaflet Map will load here -->
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="padding-45px">
+
+				<!-- Listing Search -->
+				<div class="listing-search">
+					<form class="row no-gutters">
+						<div class="col-md-4 col-6">
+							<div class="keywords">
+								<input class="listing-form first" type="text" placeholder="Keywords..." value="">
+							</div>
+						</div>
+						<div class="col-md-4 col-6">
+							<div class="categories dropdown">
+								<a class="listing-form d-block" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Categories</a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<button class="dropdown-item text-up-small" type="button">Doctors</button>
+									<button class="dropdown-item text-up-small" type="button">Clinics</button>
+									<button class="dropdown-item text-up-small" type="button">Pharmacies</button>
+									<button class="dropdown-item text-up-small" type="button">Labs</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-6">
+							<a class="listing-bottom background-dark box-shadow" href="#">Search Now</a>
+						</div>
+					</form>
+				</div>
+				<!-- // Listing Search -->
+
+				<hr>
+				<div class="float-left">6 Medical Clinics Found</div>
+				<div class="float-right">
+					<a href="map-list-layout.html" class="d-inline-block margin-right-15px"><i class="fas fa-list-ul"></i></a>
+					<a href="map-grid-layout.html" class="text-main-color"><i class="fas fa-th-large"></i></a>
+				</div>
+				<div class="clearfix"></div>
+				<hr>
+
+				<div class="row">
+					<!-- clinic -->
+					<div class="col-md-6 margin-bottom-45px">
+						<div class="background-white thum-hover box-shadow hvr-float">
+							<div class="item-thumbnail background-white">
+								<a href="#"><img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=450&h=245&fit=crop" alt="Nawaloka Eye Clinic"></a>
+							</div>
+							<div class="padding-30px">
+								<h5 class="margin-bottom-20px"><a class="text-dark" href="#">Nawaloka Eye Clinic</a></h5>
+								<div class="rating clearfix">
+									<span class="float-left text-grey-2"><i class="far fa-map"></i>  Colombo 7</span>
+									<ul class="float-right">
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+									</ul>
+								</div>
+							</div>
+							<div class="padding-lr-30px padding-tb-15px background-light-grey">
+								<div class="row no-gutters">
+									<div class="col-6"><a href="#" class="text-lime"><i class="far fa-bookmark"></i> Open Now!</a></div>
+									<div class="col-6 text-right"><a href="#" class="text-red"><i class="far fa-heart"></i> Save</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // clinic -->
+
+					<!-- clinic -->
+					<div class="col-md-6 margin-bottom-45px">
+						<div class="background-white thum-hover box-shadow hvr-float">
+							<div class="item-thumbnail background-white">
+								<a href="#"><img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=450&h=245&fit=crop" alt="Asiri Medical Centre"></a>
+							</div>
+							<div class="padding-30px">
+								<h5 class="margin-bottom-20px"><a class="text-dark" href="#">Asiri Medical Centre</a></h5>
+								<div class="rating clearfix">
+									<span class="float-left text-grey-2"><i class="far fa-map"></i>  Colombo 5</span>
+									<ul class="float-right">
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li></li>
+									</ul>
+								</div>
+							</div>
+							<div class="padding-lr-30px padding-tb-15px background-light-grey">
+								<div class="row no-gutters">
+									<div class="col-6"><a href="#" class="text-lime"><i class="far fa-bookmark"></i> Open Now!</a></div>
+									<div class="col-6 text-right"><a href="#" class="text-red"><i class="far fa-heart"></i> Save</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // clinic -->
+
+					<!-- clinic -->
+					<div class="col-md-6 margin-bottom-45px">
+						<div class="background-white thum-hover box-shadow hvr-float">
+							<div class="item-thumbnail background-white">
+								<a href="#"><img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=450&h=245&fit=crop" alt="Lanka Hospitals Specialist Centre"></a>
+							</div>
+							<div class="padding-30px">
+								<h5 class="margin-bottom-20px"><a class="text-dark" href="#">Lanka Hospitals Specialist Centre</a></h5>
+								<div class="rating clearfix">
+									<span class="float-left text-grey-2"><i class="far fa-map"></i>  Colombo 10</span>
+									<ul class="float-right">
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+									</ul>
+								</div>
+							</div>
+							<div class="padding-lr-30px padding-tb-15px background-light-grey">
+								<div class="row no-gutters">
+									<div class="col-6"><a href="#" class="text-lime"><i class="far fa-bookmark"></i> Open Now!</a></div>
+									<div class="col-6 text-right"><a href="#" class="text-red"><i class="far fa-heart"></i> Save</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // clinic -->
+
+
+					<!-- clinic -->
+					<div class="col-md-6 margin-bottom-45px">
+						<div class="background-white thum-hover box-shadow hvr-float">
+							<div class="item-thumbnail background-white">
+								<a href="#"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=450&h=245&fit=crop" alt="Durdans Hospital Outpatient Clinic"></a>
+							</div>
+							<div class="padding-30px">
+								<h5 class="margin-bottom-20px"><a class="text-dark" href="#">Durdans Hospital Outpatient Clinic</a></h5>
+								<div class="rating clearfix">
+									<span class="float-left text-grey-2"><i class="far fa-map"></i>  Colombo 3</span>
+									<ul class="float-right">
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li class="active"></li>
+										<li></li>
+									</ul>
+								</div>
+							</div>
+							<div class="padding-lr-30px padding-tb-15px background-light-grey">
+								<div class="row no-gutters">
+									<div class="col-6"><a href="#" class="text-lime"><i class="far fa-bookmark"></i> Open Now!</a></div>
+									<div class="col-6 text-right"><a href="#" class="text-red"><i class="far fa-heart"></i> Save</a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // clinic -->
+
+				</div>
+				<!-- // row -->
+
+				<ul class="pagination pagination-md ">
+					<li class="page-item disabled"><a class="page-link rounded-0" href="#" tabindex="-1">Previous</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link rounded-0" href="#">Next</a></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+    </div>
+    <!-- End Main Content Container -->
+
+	<footer class="padding-tb-100px background-main-color">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2">
+					<a class="d-inline-block margin-tb-15px"><img src="assets/img/logo-2.png" alt=""></a>
+				</div>
+				<div class="col-lg-4">
+					<p class="text-white opacity-7">AROGYA is Sri Lanka's premier healthcare directory connecting patients with trusted medical professionals and facilities across the island. Your health, our priority.</p>
+				</div>
+				<div class="col-lg-6">
+					<ul class="footer-menu margin-tb-15px margin-lr-0px padding-0px list-unstyled float-lg-right">
+						<li><a href="#" class="text-white">Featured</a></li>
+						<li><a href="#" class="text-white">Feedback</a></li>
+						<li><a href="#" class="text-white">Ask a Question</a></li>
+						<li><a href="#" class="text-white">Team</a></li>
+					</ul>
+				</div>
+			</div>
+			<hr class="border-white opacity-4 margin-tb-45px">
+			<div class="row">
+				<div class="col-lg-6">
+					<p class="margin-0px text-white opacity-7 sm-mb-15px">© 2025 AROGYA | All Right Reserved. </p>
+				</div>
+				<div class="col-lg-6">
+					<ul class="social-icon style-2 float-lg-right">
+						<li class="list-inline-item"><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
+						<li class="list-inline-item"><a class="youtube" href="#"><i class="fab fa-youtube"></i></a></li>
+						<li class="list-inline-item"><a class="linkedin" href="#"><i class="fab fa-linkedin"></i></a></li>
+						<li class="list-inline-item"><a class="google" href="#"><i class="fab fa-google-plus"></i></a></li>
+						<li class="list-inline-item"><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
+						<li class="list-inline-item"><a class="rss" href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/sticky-sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/YouTubePopUp.jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Leaflet Map Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map centered on Sri Lanka
+            const map = L.map('map-distributors').setView([7.8731, 80.7718], 8);
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Custom marker icon
+            const customIcon = L.icon({
+                iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAzMCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDQwQzE1IDQwIDMwIDIyLjUgMzAgMTVDMzAgNi43MiAyMy4yOCAwIDE1IDBDNi43MiAwIDAgNi43MiAwIDE1QzAgMjIuNSAxNSA0MCAxNSA0MFoiIGZpbGw9IiM0YTkwZTIiLz4KPGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iOCIgZmlsbD0id2hpdGUiLz4KPC9zdmc+',
+                iconSize: [30, 40],
+                iconAnchor: [15, 40],
+                popupAnchor: [0, -40]
+            });
+
+            // Sri Lankan clinic locations
+            const clinics = [
+                { lat: 6.9271, lng: 79.8612, name: "Nawaloka Eye Clinic", location: "Colombo 7" },
+                { lat: 6.8848, lng: 79.8589, name: "Asiri Medical Centre", location: "Colombo 5" },
+                { lat: 6.9147, lng: 79.8787, name: "Lanka Hospitals Specialist Centre", location: "Colombo 10" },
+                { lat: 6.9344, lng: 79.8428, name: "Durdans Hospital Outpatient Clinic", location: "Colombo 3" },
+                { lat: 7.2906, lng: 80.6337, name: "Kandy General Hospital Clinic", location: "Kandy" },
+                { lat: 6.0535, lng: 80.2210, name: "Galle Teaching Hospital", location: "Galle" }
+            ];
+
+            // Add markers for each clinic
+            clinics.forEach((clinic, index) => {
+                const marker = L.marker([clinic.lat, clinic.lng], { icon: customIcon }).addTo(map);
+
+                // Create popup content
+                const popupContent = `
+                    <div style="max-width: 250px; font-family: Arial, sans-serif;">
+                        <div style="margin-bottom: 15px;">
+                            <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?w=250&h=150&fit=crop" 
+                                 alt="${clinic.name}" style="width: 100%; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <h5 style="margin: 0 0 15px 0; color: #333; font-size: 18px;">
+                                <a href="#" style="color: #333; text-decoration: none;">${clinic.name}</a>
+                            </h5>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="color: #666;">
+                                    <i class="far fa-map"></i> ${clinic.location}
+                                </span>
+                                <div style="color: #ffc107; font-size: 16px;">
+                                    ★★★★★
+                                </div>
+                            </div>
+                            <div style="padding-top: 10px; border-top: 1px solid #eee;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <a href="#" style="color: #28a745; text-decoration: none; font-size: 14px;">
+                                        <i class="far fa-bookmark"></i> Open Now!
+                                    </a>
+                                    <a href="#" style="color: #dc3545; text-decoration: none; font-size: 14px;">
+                                        <i class="far fa-heart"></i> Save
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+            });
+
+            // Fit map to show all markers
+            const group = new L.featureGroup(map._layers);
+            if (Object.keys(map._layers).length > 1) {
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+        });
+    </script>
+
+</body>
+
+</html>

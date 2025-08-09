@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Verify QR Code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verify_qr_totp.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1/dist/ua-parser.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Flash Messages -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <h1>Verify Your Identity</h1>
+        <p>Please scan the QR code below with your Google Authenticator app.</p>
+
+        <div class="qr-code">
+            <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+        </div>
+
+        <form method="POST">
+            <input type="text" name="otp" placeholder="Enter OTP" required>
+            <label style="display:block;margin:10px 0;">
+                <input type="checkbox" name="trust_device" value="1"> Trust this device
+            </label>
+            <!-- Ensure hidden fields for device_fingerprint and device_name are present -->
+            <input type="hidden" name="device_fingerprint" id="device_fingerprint_field">
+            <input type="hidden" name="device_name" id="device_name_field">
+            <button type="submit">Verify OTP</button>
+        </form>
+        <noscript>
+            <div class="alert alert-danger">JavaScript is required for device recognition and trusted device features to work.</div>
+        </noscript>
+        <div id="js-warning" style="display:none;color:red;margin-top:10px;">Warning: Device recognition failed. Please enable JavaScript and reload the page.</div>
+
+        <p class="note">If you have trouble, please check your app settings or try again.</p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/9.0.0/uuidv4.min.js"></script>
+    <script>
+      function getCookie(name) {
+        let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+        return null;
+      }
+      function setCookie(name, value, days) {
+        let expires = '';
+        if (days) {
+          let date = new Date();
+          date.setTime(date.getTime() + (days*24*60*60*1000));
+          expires = '; expires=' + date.toUTCString();
+        }
+        document.cookie = name + '=' + value + expires + '; path=/';
+      }
+      
+      // Generate a consistent device fingerprint based on device characteristics
+      function generateDeviceFingerprint() {
+        var parser = new UAParser();
+        var device = parser.getDevice();
+        var os = parser.getOS();
+        var browser = parser.getBrowser();
+        
+        // Collect device characteristics
+        var fingerprint = [
+          navigator.userAgent,
+          navigator.language,
+          screen.width + 'x' + screen.height,
+          new Date().getTimezoneOffset(),
+          navigator.platform,
+          os.name + os.version,
+          browser.name + browser.version
+        ].join('|');
+        
+        // Create a hash of the fingerprint for consistency
+        var hash = 0;
+        for (var i = 0; i < fingerprint.length; i++) {
+          var char = fingerprint.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash; // Convert to 32-bit integer
+        }
+        
+        return 'fp_' + Math.abs(hash).toString(36);
+      }
+      
+      document.addEventListener('DOMContentLoaded', function() {
+        // Use consistent device fingerprint instead of random UUID
+        let deviceFingerprint = generateDeviceFingerprint();
+        
+        // Set device_fingerprint hidden field
+        let input = document.querySelector('input[name="device_fingerprint"]') || document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'device_fingerprint';
+        input.value = deviceFingerprint;
+        if (!document.querySelector('input[name="device_fingerprint"]')) {
+          document.forms[0].appendChild(input);
+        }
+        
+        // Device name using UAParser.js
+        var parser = new UAParser();
+        var device = parser.getDevice();
+        var os = parser.getOS();
+        var browser = parser.getBrowser();
+        let deviceName = '';
+        if (device.vendor || device.model) {
+          deviceName = (device.vendor ? device.vendor + ' ' : '') + (device.model ? device.model : '');
+        } else {
+          deviceName = os.name + ' ' + os.version;
+        }
+        deviceName += ' - ' + browser.name + ' ' + browser.version;
+        let nameInput = document.querySelector('input[name="device_name"]') || document.createElement('input');
+        nameInput.type = 'hidden';
+        nameInput.name = 'device_name';
+        nameInput.value = deviceName;
+        if (!document.querySelector('input[name="device_name"]')) {
+          document.forms[0].appendChild(nameInput);
+        }
+      });
+    </script>
+</body>
+</html>
